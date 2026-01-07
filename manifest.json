@@ -2,7 +2,7 @@
   "name": "Glute Training Tracker",
   "short_name": "Glute Tracker",
   "description": "Track your glute training progress and workouts",
-  "start_url": "./glute-tracker.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#ff6b9d",
