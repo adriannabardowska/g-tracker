@@ -1,0 +1,5 @@
+# Ignore markdown files
+*.md
+
+# macOS
+.DS_Store
