@@ -1,5 +1,5 @@
 // Service Worker for Glute Training Tracker
-const CACHE_NAME = 'glute-tracker-v4';
+const CACHE_NAME = 'glute-tracker-v5';
 const urlsToCache = [
   './index.html',
   './',
