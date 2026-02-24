@@ -707,9 +707,29 @@
 
                 <div class="card">
                     <div class="card-header">
+                        <div class="card-title">Data Status</div>
+                    </div>
+                    <div class="settings-list">
+                        <div class="settings-item" style="cursor: default;">
+                            <span>💾 Storage</span>
+                            <span id="storageStatus" style="font-size: 0.85rem; color: var(--text-secondary);">Checking...</span>
+                        </div>
+                        <div class="settings-item" style="cursor: default;">
+                            <span>📅 Last Auto-Backup</span>
+                            <span id="lastBackupDate" style="font-size: 0.85rem; color: var(--text-secondary);">Never</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         <div class="card-title">Data Management</div>
                     </div>
                     <div class="settings-list">
+                        <div class="settings-item" onclick="app.manualBackup()">
+                            <span>📥 Download Backup Now</span>
+                            <span>→</span>
+                        </div>
                         <div class="settings-item" onclick="app.clearAllData()">
                             <span style="color: var(--danger)">🗑️ Clear All Data</span>
                             <span>→</span>
@@ -829,6 +849,83 @@
 
     <script>
 // =============================================================================
+// INDEXEDDB STORAGE MANAGER — Durable, private, local-only storage
+// =============================================================================
+const IDBStorage = {
+    DB_NAME: 'GluteTrackerDB',
+    DB_VERSION: 1,
+    STORE_NAME: 'appData',
+    DATA_KEY: 'gluteTrackerData',
+
+    // Open or create the database
+    open() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+                    db.createObjectStore(this.STORE_NAME);
+                }
+            };
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => {
+                console.warn('IndexedDB open failed:', e.target.error);
+                reject(e.target.error);
+            };
+        });
+    },
+
+    // Save data to IndexedDB
+    async save(data) {
+        try {
+            const db = await this.open();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(this.STORE_NAME, 'readwrite');
+                const store = tx.objectStore(this.STORE_NAME);
+                store.put(data, this.DATA_KEY);
+                tx.oncomplete = () => { db.close(); resolve(); };
+                tx.onerror = (e) => { db.close(); reject(e.target.error); };
+            });
+        } catch (err) {
+            console.warn('IndexedDB save failed:', err);
+        }
+    },
+
+    // Load data from IndexedDB
+    async load() {
+        try {
+            const db = await this.open();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(this.STORE_NAME, 'readonly');
+                const store = tx.objectStore(this.STORE_NAME);
+                const request = store.get(this.DATA_KEY);
+                request.onsuccess = () => { db.close(); resolve(request.result || null); };
+                request.onerror = (e) => { db.close(); reject(e.target.error); };
+            });
+        } catch (err) {
+            console.warn('IndexedDB load failed:', err);
+            return null;
+        }
+    },
+
+    // Clear IndexedDB
+    async clear() {
+        try {
+            const db = await this.open();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(this.STORE_NAME, 'readwrite');
+                const store = tx.objectStore(this.STORE_NAME);
+                store.delete(this.DATA_KEY);
+                tx.oncomplete = () => { db.close(); resolve(); };
+                tx.onerror = (e) => { db.close(); reject(e.target.error); };
+            });
+        } catch (err) {
+            console.warn('IndexedDB clear failed:', err);
+        }
+    }
+};
+
+// =============================================================================
 // GLUTE TRACKER APP - Main Application
 // =============================================================================
 
@@ -839,7 +936,8 @@ const app = {
         progressPhotos: [],
         currentWeek: 1,
         settings: {
-            photoPromptDismissed: {}
+            photoPromptDismissed: {},
+            lastBackupDate: null
         }
     },
 
@@ -849,7 +947,8 @@ const app = {
         currentWorkout: null,
         currentExerciseIndex: null,
         timerInterval: null,
-        timerSeconds: 0
+        timerSeconds: 0,
+        idbReady: false
     },
 
     // Workout Program Data
@@ -1186,24 +1285,137 @@ const app = {
     },
 
     // Initialize app
-    init() {
-        this.loadData();
+    async init() {
+        await this.loadData();
         this.setupWeekSelector();
         this.renderHome();
         this.checkWeeklyPhotoPrompt();
+        this.requestPersistentStorage();
+        this.updateSettingsStatus();
     },
 
-    // Load data from localStorage
-    loadData() {
-        const stored = localStorage.getItem('gluteTrackerData');
-        if (stored) {
-            this.data = JSON.parse(stored);
+    // Request persistent storage (prevents browser from evicting data)
+    async requestPersistentStorage() {
+        if (navigator.storage && navigator.storage.persist) {
+            const granted = await navigator.storage.persist();
+            console.log('Persistent storage:', granted ? 'granted ✅' : 'denied');
         }
     },
 
-    // Save data to localStorage
+    // Load data — tries IndexedDB first, falls back to localStorage, cross-restores
+    async loadData() {
+        let idbData = null;
+        let lsData = null;
+
+        // Try IndexedDB
+        try {
+            idbData = await IDBStorage.load();
+            this.state.idbReady = true;
+        } catch (e) {
+            console.warn('IndexedDB unavailable, using localStorage only');
+        }
+
+        // Try localStorage
+        try {
+            const stored = localStorage.getItem('gluteTrackerData');
+            if (stored) lsData = JSON.parse(stored);
+        } catch (e) {
+            console.warn('localStorage read failed');
+        }
+
+        // Pick the best source (whichever has more workout entries)
+        if (idbData && lsData) {
+            // Use whichever has more data
+            const idbCount = (idbData.workouts || []).length;
+            const lsCount = (lsData.workouts || []).length;
+            this.data = idbCount >= lsCount ? idbData : lsData;
+            console.log(`Loaded from ${idbCount >= lsCount ? 'IndexedDB' : 'localStorage'} (${Math.max(idbCount, lsCount)} workouts)`);
+        } else if (idbData) {
+            this.data = idbData;
+            console.log('Recovered data from IndexedDB');
+        } else if (lsData) {
+            this.data = lsData;
+            console.log('Loaded from localStorage');
+        }
+
+        // Ensure settings.lastBackupDate exists
+        if (!this.data.settings) this.data.settings = { photoPromptDismissed: {} };
+        if (!this.data.settings.lastBackupDate) this.data.settings.lastBackupDate = null;
+
+        // Sync both stores to have the same data
+        this.saveData();
+    },
+
+    // Save data — writes to BOTH IndexedDB and localStorage
     saveData() {
-        localStorage.setItem('gluteTrackerData', JSON.stringify(this.data));
+        // localStorage (fast, synchronous)
+        try {
+            localStorage.setItem('gluteTrackerData', JSON.stringify(this.data));
+        } catch (e) {
+            console.warn('localStorage write failed:', e);
+        }
+
+        // IndexedDB (durable, async)
+        if (this.state.idbReady) {
+            IDBStorage.save(JSON.parse(JSON.stringify(this.data)))
+                .catch(e => console.warn('IndexedDB write failed:', e));
+        }
+    },
+
+    // Auto-backup: silently downloads a JSON backup file
+    autoBackup() {
+        try {
+            const backupData = {
+                version: '1.0',
+                timestamp: new Date().toISOString(),
+                data: this.data
+            };
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const date = new Date().toISOString().split('T')[0];
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `glute-backup-${date}.json`;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            this.data.settings.lastBackupDate = new Date().toISOString();
+            this.saveData();
+            this.updateSettingsStatus();
+            console.log('Auto-backup downloaded ✅');
+        } catch (e) {
+            console.warn('Auto-backup failed:', e);
+        }
+    },
+
+    // Manual backup button handler
+    manualBackup() {
+        this.autoBackup();
+        alert('Backup downloaded! 📥 Save it somewhere safe (e.g., iCloud Drive).');
+    },
+
+    // Update settings status indicators
+    updateSettingsStatus() {
+        const storageEl = document.getElementById('storageStatus');
+        const backupEl = document.getElementById('lastBackupDate');
+        if (!storageEl || !backupEl) return;
+
+        // Storage status
+        const workoutCount = (this.data.workouts || []).length;
+        const idbLabel = this.state.idbReady ? 'IndexedDB ✅' : 'localStorage only';
+        storageEl.textContent = `${idbLabel} · ${workoutCount} workout${workoutCount !== 1 ? 's' : ''}`;
+
+        // Last backup date
+        if (this.data.settings.lastBackupDate) {
+            const d = new Date(this.data.settings.lastBackupDate);
+            backupEl.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        } else {
+            backupEl.textContent = 'Never';
+        }
     },
 
     // Setup week selector
@@ -1542,7 +1754,10 @@ const app = {
 
         this.saveData();
 
-        alert('Workout completed! 🎉');
+        // Auto-backup after every completed workout
+        this.autoBackup();
+
+        alert('Workout completed! 🎉 (Backup saved)');
 
         this.goHome();
     },
@@ -1829,12 +2044,14 @@ const app = {
         if (confirm('Are you sure? This will delete ALL your workout data and photos.')) {
             if (confirm('This cannot be undone. Are you REALLY sure?')) {
                 localStorage.removeItem('gluteTrackerData');
+                IDBStorage.clear();
                 this.data = {
                     workouts: [],
                     progressPhotos: [],
                     currentWeek: 1,
                     settings: {
-                        photoPromptDismissed: {}
+                        photoPromptDismissed: {},
+                        lastBackupDate: null
                     }
                 };
                 this.init();
