@@ -1,5 +1,5 @@
 // Service Worker for Glute Training Tracker
-const CACHE_NAME = 'glute-tracker-v7';
+const CACHE_NAME = 'glute-tracker-v8';
 const urlsToCache = [
   './index.html',
   './',
@@ -20,6 +20,14 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
+  // Always try network first for page navigations to avoid stale HTML
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
