@@ -280,6 +280,27 @@
             font-size: 0.9rem;
         }
 
+        .workout-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .workout-pill {
+            background: var(--bg-secondary);
+            border-radius: 999px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.65rem;
+        }
+
+        .workout-pill.completed {
+            background: linear-gradient(135deg, var(--success-gradient-start), var(--success-gradient-end));
+            color: #4A7C6B;
+        }
+
         /* ===== WORKOUT VIEW ===== */
         .exercise-list {
             display: flex;
@@ -660,7 +681,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">This Week</div>
-                        <div class="card-badge" id="weekProgress">0/4</div>
+                        <div class="card-badge" id="weekProgress">0/5</div>
                     </div>
                     <div class="workout-grid" id="workoutGrid">
                         <!-- Populated by JS -->
@@ -877,355 +898,284 @@
                 days: [
                     {
                         id: 'day1',
-                        name: 'Monday - Glutes (Heavy Compounds + Isolation)',
+                        name: 'Monday - Lower A (Heavy Glutes)',
+                        aliases: ['Monday - Glutes (Heavy Compounds + Isolation)'],
                         exercises: [
                             {
-                                name: 'Romanian Deadlifts (RDLs)',
+                                name: 'Barbell Hip Thrust',
                                 sets: 3,
                                 repsRange: '8-10',
-                                restTime: 120,
-                                tips: 'Hinge at hips, slight knee bend, feel stretch in hamstrings and glutes',
-                                category: 'glutes',
-                                imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Romanian_Deadlift/0.jpg'
-                            },
-                            {
-                                name: 'Barbell Hip Thrust',
-                                sets: 4,
-                                repsRange: '6-8',
-                                restTime: 120,
-                                tips: 'Drive through heels, toes can lift slightly, posterior pelvic tilt at top',
+                                restTime: 180,
+                                tips: 'Drive through heels, tuck pelvis at the top, and pause for a hard glute squeeze.',
                                 category: 'glutes',
                                 imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/0.jpg'
                             },
                             {
                                 name: 'Barbell Glute Bridge',
-                                sets: 4,
-                                repsRange: '10-12',
+                                sets: 3,
+                                repsRange: '8-10',
                                 restTime: 120,
-                                tips: 'Heels close to glutes, squeeze hard for 2 sec at top',
+                                tips: 'Keep ribs down, heels close enough to feel glutes, and hold the top for 2 seconds.',
                                 category: 'glutes',
                                 imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Glute_Bridge/0.jpg'
                             },
                             {
-                                name: 'Single Leg Hip Thrust',
+                                name: 'Bulgarian Split Squat',
+                                aliases: ['Dumbbell Bulgarian Split Squat', 'Bulgarian Split Squat (Glute Bias)'],
                                 sets: 3,
-                                repsRange: '10 per leg',
+                                repsRange: '8-10 per leg',
                                 restTime: 90,
-                                tips: 'Extend non-working leg straight, focus on upper glute squeeze',
+                                tips: 'Use a long stance, lean forward, keep the front shin controlled, and drive through the heel.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/tA0oq2JAbCDU7r'
                             },
                             {
                                 name: 'Cable Straight Leg Kickbacks',
                                 sets: 3,
-                                repsRange: '12-15 per leg',
+                                repsRange: '10-12 per leg',
                                 restTime: 90,
-                                tips: 'Maintain 90° angle with kneeling leg, push working leg to hip extension',
+                                tips: 'Keep the knee mostly straight and move from the hip without arching your lower back.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/02FPgaS9eeJVFp'
                             },
                             {
                                 name: 'Hip Abduction Machine',
-                                sets: 4,
+                                sets: 3,
                                 repsRange: '10-12',
                                 restTime: 60,
-                                tips: 'Controlled, not momentum',
+                                tips: 'Control the opening and closing; avoid using momentum.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/r4jN-a0EgBvSuj'
-                            },
-                            {
-                                name: 'BURNOUT: Banded Frog Pumps',
-                                sets: 1,
-                                repsRange: '20-30 or failure',
-                                restTime: 60,
-                                tips: 'Band above knees, soles together, push to failure',
-                                category: 'glutes',
-                                imageUrl: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Frog-Pump.gif'
-                            },
-                            {
-                                name: 'BURNOUT: Banded Donkey Kicks',
-                                sets: 1,
-                                repsRange: '20-30 per leg or failure',
-                                restTime: 0,
-                                tips: 'All fours, drive heel to ceiling, push to failure',
-                                category: 'glutes',
-                                imageUrl: 'https://v2.exercisedb.io/image/TDqzgOrv0Ir2nJ'
                             }
                         ]
                     },
                     {
                         id: 'day2',
-                        name: 'Tuesday - Upper Body (Push + Pull)',
+                        name: 'Tuesday - Push',
+                        aliases: ['Tuesday - Upper Body (Push + Pull)'],
                         exercises: [
                             {
                                 name: 'Incline Dumbbell Press',
                                 sets: 3,
-                                repsRange: '10-12',
+                                repsRange: '8-10',
                                 restTime: 90,
-                                tips: 'Press at 30-45° angle, focus on upper chest and shoulders',
+                                tips: 'Use a low incline, keep shoulders down, and stop 1-2 reps before form breaks.',
                                 category: 'push',
                                 imageUrl: 'https://v2.exercisedb.io/image/R5l2xqPjwk1Z5i'
                             },
                             {
-                                name: 'Lat Pulldown',
+                                name: 'Arnold Dumbbell Press',
+                                aliases: ['Dumbbell Shoulder Press', 'Arnold Press'],
                                 sets: 3,
-                                repsRange: '8-12',
+                                repsRange: '8-10',
                                 restTime: 90,
-                                tips: 'Full range of motion, squeeze lats at bottom',
-                                category: 'pull',
-                                imageUrl: 'https://v2.exercisedb.io/image/yAqYV4t8tZPQ-f'
+                                tips: 'Rotate smoothly, keep ribs stacked over hips, and avoid over-arching.',
+                                category: 'push',
+                                imageUrl: 'https://v2.exercisedb.io/image/pDBW-rZ5aG2fA0'
                             },
                             {
-                                name: 'Lateral Raises',
+                                name: 'Dumbbell Bench Press',
+                                aliases: ['Dumbbell Press'],
+                                sets: 3,
+                                repsRange: '8-10',
+                                restTime: 90,
+                                tips: 'Keep shoulder blades set and press with a controlled lower.',
+                                category: 'push',
+                                imageUrl: 'https://v2.exercisedb.io/image/R5l2xqPjwk1Z5i'
+                            },
+                            {
+                                name: 'Dumbbell Lateral Raise',
+                                aliases: ['Lateral Raises', 'Dumbbell Side Lateral Raise'],
                                 sets: 3,
                                 repsRange: '10-12',
                                 restTime: 60,
-                                tips: 'Slight bend in elbows, lift to shoulder height',
+                                tips: 'Lead with elbows, stop around shoulder height, and keep the movement strict.',
                                 category: 'push',
                                 imageUrl: 'https://v2.exercisedb.io/image/mGkLf0d6TbQWJQ'
                             },
                             {
-                                name: 'Tricep Pushdowns',
+                                name: 'Triceps Pushdown',
+                                aliases: ['Tricep Pushdowns', 'Triceps Pushdown', 'Tricep Curls (Extensions)'],
                                 sets: 3,
-                                repsRange: '12-15',
+                                repsRange: '10-12',
                                 restTime: 60,
-                                tips: 'Keep elbows tucked, full extension at bottom',
+                                tips: 'Pin elbows to your sides and fully extend without swinging.',
                                 category: 'push',
                                 imageUrl: 'https://v2.exercisedb.io/image/ugvJxUZGjwOWel'
-                            },
-                            {
-                                name: 'Bent-Over Row',
-                                sets: 3,
-                                repsRange: '10-12',
-                                restTime: 90,
-                                tips: 'Hinge at hips, pull weight to lower chest',
-                                category: 'pull',
-                                imageUrl: 'https://v2.exercisedb.io/image/bPb7rEz1cQxs-2'
-                            },
-                            {
-                                name: 'Upright Row',
-                                sets: 3,
-                                repsRange: '10-12',
-                                restTime: 90,
-                                tips: 'Keep elbows higher than hands throughout the movement',
-                                category: 'pull',
-                                imageUrl: 'https://v2.exercisedb.io/image/LzN1W5qOhC3E3x'
-                            },
-                            {
-                                name: 'Bicep Curls',
-                                sets: 3,
-                                repsRange: '10-12',
-                                restTime: 60,
-                                tips: 'Control the weight, full range of motion',
-                                category: 'pull',
-                                imageUrl: 'https://v2.exercisedb.io/image/s1TyRxv8w52o2T'
                             }
                         ]
                     },
                     {
                         id: 'day3',
-                        name: 'Wednesday - Glutes (Isolation + Pump)',
+                        name: 'Wednesday - Lower B (Glute Isolation)',
+                        aliases: ['Wednesday - Glutes (Isolation + Pump)'],
                         exercises: [
                             {
-                                name: 'Barbell Hip Thrust',
-                                sets: 4,
-                                repsRange: '10',
+                                name: 'Romanian Deadlift',
+                                aliases: ['Romanian Deadlifts (RDLs)', 'Barbell Romanian Deadlift'],
+                                sets: 3,
+                                repsRange: '8-10',
                                 restTime: 120,
-                                tips: 'Drive through heels, posterior pelvic tilt at top',
+                                tips: 'Hinge from the hips, keep a soft knee bend, and stop where you still control your back position.',
+                                category: 'glutes',
+                                imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Romanian_Deadlift/0.jpg'
+                            },
+                            {
+                                name: 'Barbell Hip Thrust',
+                                sets: 3,
+                                repsRange: '8-10',
+                                restTime: 120,
+                                tips: 'Use a controlled tempo and squeeze at the top without overextending your back.',
                                 category: 'glutes',
                                 imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/0.jpg'
                             },
                             {
-                                name: 'Barbell Glute Bridge',
-                                sets: 4,
-                                repsRange: '10-12',
-                                restTime: 120,
-                                tips: 'Heels close to glutes, squeeze hard for 2 sec at top',
-                                category: 'glutes',
-                                imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Glute_Bridge/0.jpg'
-                            },
-                            {
-                                name: 'Single Leg Glute Bridge',
-                                sets: 3,
-                                repsRange: '10-12 per leg',
-                                restTime: 90,
-                                tips: 'Extend non-working leg straight, don\'t let hips rotate',
-                                category: 'glutes',
-                                imageUrl: 'https://v2.exercisedb.io/image/tA0oq2JAbCDU7r'
-                            },
-                            {
-                                name: 'Cable Straight Leg Kickbacks',
-                                sets: 3,
-                                repsRange: '12-15 per leg',
-                                restTime: 90,
-                                tips: 'Maintain 90° angle with kneeling leg, push working leg to hip extension',
-                                category: 'glutes',
-                                imageUrl: 'https://v2.exercisedb.io/image/02FPgaS9eeJVFp'
-                            },
-                            {
-                                name: '45° Back Extensions',
+                                name: '45-degree Back Extensions',
+                                aliases: ['45° Back Extensions', 'Glute Focused Back Extensions'],
                                 sets: 3,
                                 repsRange: '10-12',
                                 restTime: 90,
-                                tips: 'Round upper back slightly, focus on hip hinge for glute activation',
+                                tips: 'Round upper back slightly, hinge at the hips, and finish by squeezing glutes.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/jNJF-K1f-YpJq3'
                             },
                             {
+                                name: 'Cable Straight Leg Kickbacks',
+                                sets: 3,
+                                repsRange: '10-12 per leg',
+                                restTime: 90,
+                                tips: 'Keep the knee mostly straight and move from the hip without arching your lower back.',
+                                category: 'glutes',
+                                imageUrl: 'https://v2.exercisedb.io/image/02FPgaS9eeJVFp'
+                            },
+                            {
                                 name: 'Hip Abduction Machine',
                                 sets: 3,
-                                repsRange: '15-20',
+                                repsRange: '10-12',
                                 restTime: 60,
-                                tips: 'Controlled, not momentum',
+                                tips: 'Keep tension constant and control both directions of the rep.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/r4jN-a0EgBvSuj'
-                            },
-                            {
-                                name: 'BURNOUT: Frog Pumps',
-                                sets: 1,
-                                repsRange: '25-30',
-                                restTime: 60,
-                                tips: 'Band above knees, soles together, push to failure',
-                                category: 'glutes',
-                                imageUrl: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Frog-Pump.gif'
-                            },
-                            {
-                                name: 'BURNOUT: Donkey Kicks',
-                                sets: 1,
-                                repsRange: '20 per leg',
-                                restTime: 60,
-                                tips: 'All fours, drive heel to ceiling, push to failure',
-                                category: 'glutes',
-                                imageUrl: 'https://v2.exercisedb.io/image/TDqzgOrv0Ir2nJ'
                             }
                         ]
                     },
                     {
                         id: 'day4',
-                        name: 'Thursday - Upper Body (Pull + Push)',
+                        name: 'Thursday - Pull',
+                        aliases: ['Thursday - Upper Body (Pull + Push)'],
                         exercises: [
                             {
-                                name: 'Pull-ups or Lat Pulldown',
+                                name: 'Lat Pulldown',
+                                aliases: ['Pull-ups or Lat Pulldown'],
                                 sets: 3,
-                                repsRange: '12-15',
+                                repsRange: '8-10',
                                 restTime: 90,
-                                tips: 'Full range of motion, squeeze lats at bottom',
+                                tips: 'Pull elbows down toward your ribs and control the return.',
                                 category: 'pull',
                                 imageUrl: 'https://v2.exercisedb.io/image/yAqYV4t8tZPQ-f'
                             },
                             {
-                                name: 'Barbell or Dumbbell Rows',
+                                name: 'One-Arm Dumbbell Row',
+                                aliases: ['One-Arm Dumbbell Row', 'Barbell or Dumbbell Rows'],
                                 sets: 3,
-                                repsRange: '12-15',
+                                repsRange: '8-10 per side',
                                 restTime: 90,
-                                tips: 'Pull to lower chest, squeeze shoulder blades',
+                                tips: 'Brace on a bench, pull elbow toward your hip, and avoid twisting.',
                                 category: 'pull',
                                 imageUrl: 'https://v2.exercisedb.io/image/bPb7rEz1cQxs-2'
                             },
                             {
-                                name: 'Dumbbell Shoulder Press',
+                                name: 'Seated Cable Row',
+                                aliases: ['Seated Cable Row', 'Barbell or Dumbbell Rows', 'Bent-Over Row'],
+                                sets: 3,
+                                repsRange: '8-10',
+                                restTime: 90,
+                                tips: 'Sit tall, pull to lower ribs, and squeeze shoulder blades without shrugging.',
+                                category: 'pull',
+                                imageUrl: 'https://v2.exercisedb.io/image/bPb7rEz1cQxs-2'
+                            },
+                            {
+                                name: 'Rear Delt Row or Face Pull',
+                                aliases: ['Face Pulls', 'Rear Delt Row', 'Dumbbell Rear Delt Row'],
                                 sets: 3,
                                 repsRange: '10-12',
-                                restTime: 90,
-                                tips: 'Keep core tight, press weight overhead without arching back',
-                                category: 'push',
-                                imageUrl: 'https://v2.exercisedb.io/image/pDBW-rZ5aG2fA0'
+                                restTime: 60,
+                                tips: 'Pull with elbows high and keep traps relaxed.',
+                                category: 'pull',
+                                imageUrl: 'https://v2.exercisedb.io/image/mGkLf0d6TbQWJQ'
                             },
                             {
-                                name: 'Bicep Curls',
+                                name: 'Barbell or Dumbbell Curl',
+                                aliases: ['Bicep Curls', 'Barbell Curl', 'Dumbbell Curl'],
                                 sets: 3,
-                                repsRange: '12-15',
+                                repsRange: '8-10',
                                 restTime: 60,
-                                tips: 'Control the weight, full range of motion',
+                                tips: 'Keep elbows still and use a full, controlled range.',
                                 category: 'pull',
                                 imageUrl: 'https://v2.exercisedb.io/image/s1TyRxv8w52o2T'
-                            },
-                            {
-                                name: 'Tricep Curls (Extensions)',
-                                sets: 3,
-                                repsRange: '12-15',
-                                restTime: 60,
-                                tips: 'Keep elbows tucked, focus on tricep contraction',
-                                category: 'push',
-                                imageUrl: 'https://v2.exercisedb.io/image/ugvJxUZGjwOWel'
                             }
                         ]
                     },
                     {
                         id: 'day5',
-                        name: 'Friday - Glutes (Heavy Compounds + Isolation)',
+                        name: 'Friday - Lower C (Heavy Glutes)',
+                        aliases: ['Friday - Glutes (Heavy Compounds + Isolation)'],
                         exercises: [
                             {
-                                name: 'Sumo Squats',
+                                name: 'Sumo Squat',
+                                aliases: ['Sumo Squats'],
                                 sets: 3,
                                 repsRange: '8-10',
                                 restTime: 120,
-                                tips: 'Wide stance, toes out 45°, sit back into hips, focus on glute squeeze',
+                                tips: 'Use a wide stance, sit back into the hips, and keep the movement glute-focused.',
                                 category: 'glutes',
                                 imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Sumo_Squat/0.jpg'
                             },
                             {
                                 name: 'Barbell Hip Thrust',
                                 sets: 3,
-                                repsRange: '6-8',
-                                restTime: 120,
-                                tips: 'Try to beat Monday weights! Drive through heels',
+                                repsRange: '8-10',
+                                restTime: 180,
+                                tips: 'Aim to match or beat Monday only if form stays clean.',
                                 category: 'glutes',
                                 imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/0.jpg'
                             },
                             {
                                 name: 'Barbell Glute Bridge',
                                 sets: 3,
-                                repsRange: '10-12',
+                                repsRange: '8-10',
                                 restTime: 120,
-                                tips: 'Heels close to glutes, squeeze hard for 2 sec at top',
+                                tips: 'Pause at the top and keep the movement in the glutes, not the low back.',
                                 category: 'glutes',
                                 imageUrl: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Glute_Bridge/0.jpg'
                             },
                             {
-                                name: 'Single Leg Hip Thrust',
+                                name: 'Bulgarian Split Squat',
+                                aliases: ['Dumbbell Bulgarian Split Squat', 'Bulgarian Split Squat (Glute Bias)'],
                                 sets: 3,
-                                repsRange: '10 per leg',
+                                repsRange: '8-10 per leg',
                                 restTime: 90,
-                                tips: 'Extend non-working leg straight, focus on upper glute squeeze',
+                                tips: 'Use a long stance, lean forward, keep the front shin controlled, and drive through the heel.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/tA0oq2JAbCDU7r'
                             },
                             {
                                 name: 'Cable Straight Leg Kickbacks',
                                 sets: 3,
-                                repsRange: '12-15 per leg',
+                                repsRange: '10-12 per leg',
                                 restTime: 90,
-                                tips: 'Maintain 90° angle with kneeling leg, push working leg to hip extension',
+                                tips: 'Keep the knee mostly straight and move from the hip without arching your lower back.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/02FPgaS9eeJVFp'
                             },
                             {
                                 name: 'Hip Abduction Machine',
                                 sets: 3,
-                                repsRange: '15-20',
+                                repsRange: '10-12',
                                 restTime: 60,
-                                tips: 'Controlled, not momentum',
+                                tips: 'Keep tension constant and control both directions of the rep.',
                                 category: 'glutes',
                                 imageUrl: 'https://v2.exercisedb.io/image/r4jN-a0EgBvSuj'
-                            },
-                            {
-                                name: 'BURNOUT: Banded Frog Pumps',
-                                sets: 1,
-                                repsRange: '20-30 or failure',
-                                restTime: 60,
-                                tips: 'Band above knees, soles together, push to failure',
-                                category: 'glutes',
-                                imageUrl: 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Frog-Pump.gif'
-                            },
-                            {
-                                name: 'BURNOUT: Reverse Hypers (banded)',
-                                sets: 1,
-                                repsRange: '20-30 or failure',
-                                restTime: 0,
-                                tips: 'Hip extension, legs straight, push to failure',
-                                category: 'glutes',
-                                imageUrl: 'https://v2.exercisedb.io/image/02FPgaS9eeJVFp'
                             }
                         ]
                     }
@@ -1244,7 +1194,7 @@
             loadData() {
                 const stored = localStorage.getItem('gluteTrackerData');
                 if (stored) {
-                    this.data = JSON.parse(stored);
+                    this.data = this.normalizeImportedData(JSON.parse(stored));
                 }
             },
 
@@ -1253,11 +1203,30 @@
                 localStorage.setItem('gluteTrackerData', JSON.stringify(this.data));
             },
 
+            // Normalize plain exports and wrapped backup files to the app data shape
+            normalizeImportedData(imported) {
+                const incoming = imported && imported.data ? imported.data : imported;
+                if (!incoming || !Array.isArray(incoming.workouts)) {
+                    throw new Error('Invalid workout data');
+                }
+
+                return {
+                    workouts: incoming.workouts || [],
+                    progressPhotos: incoming.progressPhotos || [],
+                    currentWeek: parseInt(incoming.currentWeek, 10) || 1,
+                    settings: {
+                        photoPromptDismissed: {},
+                        ...(incoming.settings || {})
+                    }
+                };
+            },
+
             // Setup week selector
             setupWeekSelector() {
                 const selector = document.getElementById('weekSelector');
                 selector.innerHTML = '';
-                for (let i = 1; i <= 12; i++) {
+                const maxWeek = Math.max(8, this.data.currentWeek);
+                for (let i = 1; i <= maxWeek; i++) {
                     const option = document.createElement('option');
                     option.value = i;
                     option.textContent = `Week ${i}`;
@@ -1266,11 +1235,11 @@
                     }
                     selector.appendChild(option);
                 }
-                selector.addEventListener('change', (e) => {
+                selector.onchange = (e) => {
                     this.data.currentWeek = parseInt(e.target.value);
                     this.saveData();
                     this.renderHome();
-                });
+                };
             },
 
             // Show view
@@ -1284,7 +1253,11 @@
 
                 // Update nav tabs
                 document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-                event.currentTarget.classList.add('active');
+                const tabOrder = ['home', 'photos', 'settings'];
+                const activeTabIndex = tabOrder.indexOf(viewName);
+                if (activeTabIndex >= 0) {
+                    document.querySelectorAll('.nav-tab')[activeTabIndex].classList.add('active');
+                }
 
                 // Update header
                 document.getElementById('headerSubtitle').textContent = `Week ${this.data.currentWeek}`;
@@ -1306,15 +1279,16 @@
 
                 // Get workouts for current week
                 const weekWorkouts = this.getWeekWorkouts();
-                const completedCount = weekWorkouts.filter(w => w.completed).length;
+                const completedCount = this.getCompletedWorkoutCount(weekWorkouts);
+                const targetCount = this.program.days.length;
 
                 // Update progress badge
-                document.getElementById('weekProgress').textContent = `${completedCount}/4`;
+                document.getElementById('weekProgress').textContent = `${completedCount}/${targetCount}`;
                 document.getElementById('headerSubtitle').textContent = `Week ${this.data.currentWeek}`;
 
                 // Render workout cards
                 this.program.days.forEach((day, index) => {
-                    const workout = weekWorkouts.find(w => w.dayType === day.name);
+                    const workout = this.findWorkoutForDay(weekWorkouts, day);
                     const isCompleted = workout && workout.completed;
 
                     const card = document.createElement('div');
@@ -1327,8 +1301,11 @@
                     ${isCompleted ? '<span class="success-checkmark">✓</span>' : ''}
                 </div>
                 <div class="workout-card-desc">
-                    ${day.exercises.length} exercises
-                    ${workout && workout.date ? `<br>Last: ${new Date(workout.date).toLocaleDateString()}` : ''}
+                    ${day.exercises.length} exercises${workout && workout.date ? ` · Last: ${this.formatWorkoutDate(workout.date)}` : ''}
+                    <div class="workout-card-meta">
+                        <span class="workout-pill ${isCompleted ? 'completed' : ''}">${isCompleted ? 'Completed' : 'Planned'}</span>
+                        <span class="workout-pill">${day.exercises.reduce((total, exercise) => total + exercise.sets, 0)} working sets</span>
+                    </div>
                 </div>
             `;
 
@@ -1339,6 +1316,41 @@
             // Get workouts for current week
             getWeekWorkouts() {
                 return this.data.workouts.filter(w => w.week === this.data.currentWeek);
+            },
+
+            getDayNames(day) {
+                return [day.name, ...(day.aliases || [])];
+            },
+
+            matchesDay(workout, day) {
+                return this.getDayNames(day).includes(workout.dayType);
+            },
+
+            findWorkoutForDay(workouts, day) {
+                return [...workouts]
+                    .filter(workout => workout.completed && this.matchesDay(workout, day))
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+            },
+
+            getCompletedWorkoutCount(workouts) {
+                const completedDayIds = new Set();
+                workouts
+                    .filter(workout => workout.completed)
+                    .forEach(workout => {
+                        const day = this.program.days.find(programDay => this.matchesDay(workout, programDay));
+                        if (day) {
+                            completedDayIds.add(day.id);
+                        }
+                    });
+
+                return completedDayIds.size;
+            },
+
+            formatWorkoutDate(date) {
+                return new Date(date).toLocaleDateString(undefined, {
+                    month: 'short',
+                    day: 'numeric'
+                });
             },
 
             // Start workout
@@ -1371,17 +1383,7 @@
                     const card = document.createElement('div');
                     card.className = `exercise-card ${exercise.setsLogged.length === exercise.sets ? 'completed' : ''}`;
 
-                    // For Week 3, prioritize Week 2 history (same day first) for preview
-                    let week2Preview = null;
-                    if (this.data.currentWeek === 3) {
-                        week2Preview = this.getPreviousExerciseData(exercise.name, {
-                            week: 2,
-                            dayType: this.state.currentWorkout.day.name
-                        }) || this.getPreviousExerciseData(exercise.name, { week: 2 });
-                    }
-
-                    const previousData = week2Preview || this.getPreviousExerciseData(exercise.name);
-                    const previousLabel = week2Preview ? 'Week 2' : 'Previous';
+                    const previousData = this.getPreviousExerciseData(exercise);
 
                     const setsHtml = exercise.setsLogged.map(set =>
                         `<span class="set-chip">Set ${set.setNumber}: ${set.weight} kg × ${set.reps}</span>`
@@ -1401,7 +1403,7 @@
                     </div>
                     <div class="exercise-tips ${this.data.currentWeek > 4 ? 'hidden' : ''}">${exercise.tips}</div>
                 ` : ''}
-                ${previousData ? `<div class="exercise-previous">${previousLabel}: ${previousData}</div>` : ''}
+                ${previousData ? `<div class="exercise-previous">Previous: ${previousData}</div>` : ''}
                 ${exercise.setsLogged.length > 0 ? `<div class="sets-logged">${setsHtml}</div>` : ''}
                 <div class="exercise-actions">
                     ${exercise.setsLogged.length < exercise.sets ? `
@@ -1421,8 +1423,17 @@
             },
 
             // Get previous exercise data
-            getPreviousExerciseData(exerciseName, options = {}) {
+            getExerciseNames(exercise) {
+                if (typeof exercise === 'string') {
+                    return [exercise];
+                }
+
+                return [exercise.name, ...(exercise.aliases || [])];
+            },
+
+            getPreviousExerciseData(exercise, options = {}) {
                 const { week = null, dayType = null } = options;
+                const exerciseNames = this.getExerciseNames(exercise);
 
                 // Find most recent workout with this exercise (optionally filtered)
                 let recentWorkouts = [...this.data.workouts];
@@ -1435,9 +1446,9 @@
                 recentWorkouts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
                 for (const workout of recentWorkouts) {
-                    const exercise = workout.exercises.find(e => e.name === exerciseName);
-                    if (exercise && exercise.sets.length > 0) {
-                        return exercise.sets
+                    const previousExercise = workout.exercises.find(e => exerciseNames.includes(e.name));
+                    if (previousExercise && previousExercise.sets.length > 0) {
+                        return previousExercise.sets
                             .map(s => `${s.weight}×${s.reps}`)
                             .join(', ');
                     }
@@ -1458,17 +1469,7 @@
                     const lastSet = exercise.setsLogged[exercise.setsLogged.length - 1];
                     document.getElementById('setWeight').value = lastSet.weight;
                 } else {
-                    // For Week 3, prioritize Week 2 history (same day first) for prefill
-                    let previousData = null;
-                    if (this.data.currentWeek === 3) {
-                        previousData = this.getPreviousExerciseData(exercise.name, {
-                            week: 2,
-                            dayType: this.state.currentWorkout.day.name
-                        }) || this.getPreviousExerciseData(exercise.name, { week: 2 });
-                    }
-                    if (!previousData) {
-                        previousData = this.getPreviousExerciseData(exercise.name);
-                    }
+                    const previousData = this.getPreviousExerciseData(exercise);
 
                     if (previousData) {
                         const firstSet = previousData.split(',')[0].trim();
@@ -1606,9 +1607,10 @@
 
                 // Check if week is complete
                 const weekWorkouts = this.getWeekWorkouts();
-                const completedCount = weekWorkouts.filter(w => w.completed).length;
+                const completedCount = this.getCompletedWorkoutCount(weekWorkouts);
+                const targetCount = this.program.days.length;
 
-                if (completedCount === 4) {
+                if (completedCount >= targetCount) {
                     // Week complete - move to next week and show photo prompt
                     this.data.currentWeek++;
                     this.showWeeklyPhotoPrompt();
@@ -1823,9 +1825,10 @@
                 reader.onload = (e) => {
                     try {
                         const imported = JSON.parse(e.target.result);
+                        const normalizedData = this.normalizeImportedData(imported);
 
-                        if (confirm('This will replace all current data. Continue?')) {
-                            this.data = imported;
+                        if (confirm('This will replace all current workout data on this device. Continue?')) {
+                            this.data = normalizedData;
                             this.saveData();
                             this.init();
                             alert('Data imported successfully! 📤');
@@ -1834,6 +1837,7 @@
                         alert('Error importing data. Please check the file.');
                     }
                 };
+                event.target.value = '';
                 reader.readAsText(file);
             },
 
@@ -1875,20 +1879,17 @@
                     reader.onload = (event) => {
                         try {
                             const backup = JSON.parse(event.target.result);
-
-                            // Validate backup structure
-                            if (!backup.data || !backup.version) {
-                                throw new Error('Invalid backup file');
-                            }
+                            const normalizedData = this.normalizeImportedData(backup);
 
                             if (confirm('This will replace all current data with the backup. Continue?')) {
-                                this.data = backup.data;
-                                localStorage.setItem('gluteTrackerData', JSON.stringify(this.data));
+                                this.data = normalizedData;
+                                this.saveData();
                                 this.init();
-                                alert(`Backup restored successfully! (from ${new Date(backup.timestamp).toLocaleDateString()})`);
+                                const restoredDate = backup.timestamp ? ` (from ${new Date(backup.timestamp).toLocaleDateString()})` : '';
+                                alert(`Backup restored successfully!${restoredDate}`);
                             }
                         } catch (error) {
-                            alert('Error restoring backup. Please check the file is a valid backup.');
+                            alert('Error restoring backup. Please check the file is a valid backup or exported app data.');
                             console.error(error);
                         }
                     };

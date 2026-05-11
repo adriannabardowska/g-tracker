@@ -1,5 +1,10 @@
-# Ignore markdown files
-*.md
-
 # macOS
 .DS_Store
+
+# Local app data exports
+glute-tracker-backup-*.json
+g-tracker_*.json
+g-tracker_*.JSON
+
+# Local notes/workspace metadata
+.obsidian/
